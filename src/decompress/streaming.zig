@@ -126,7 +126,7 @@ pub fn decompressStream(reader: anytype, writer: anytype, options: DecompressOpt
             if (last_filter.properties.len < 1) return error.InvalidFilterProperties;
             // Check LZMA2 dictionary size
             const dict_size = try lzma2_filter.propToDictSize(last_filter.properties[0]);
-            if (dict_size > options.memlimit) return error.ExceededMemoryLimit;
+            if (dict_size > options.getEffectiveMemlimit()) return error.ExceededMemoryLimit;
             for (header.filters[0 .. header.filters.len - 1]) |f| {
                 if (!filter_mod.isSupportedFilter(f.id)) return error.UnsupportedFilter;
             }

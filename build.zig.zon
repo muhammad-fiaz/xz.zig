@@ -5,8 +5,8 @@
     .minimum_zig_version = "0.17.0",
     .dependencies = .{
         .lzma2 = .{
-            .url = "git+https://github.com/muhammad-fiaz/lzma2.zig.git#cc3bad13ba4b6fa71a83a25552ada64d6991cb53",
-            .hash = "lzma2-0.0.1-YyNkYQ7GAwC2xO-tVqSOGwN1MJZ5f4qQ4FCsjJ7gXhBz",
+            .url = "git+https://github.com/muhammad-fiaz/lzma2.zig.git#7f82a0a624b8858321a9724a374ab1cb2b4305a1",
+            .hash = "lzma2-0.0.1-YyNkYbG9AwDJ7qPvfqa6Asud7e2Byxhz5E-tE8E9-98i",
         },
     },
     .paths = .{

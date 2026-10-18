@@ -55,7 +55,7 @@ Hostile payloads can be designed to expand into gigabytes of data. `xz.zig` defe
 const decompressed = try xz.decompress(allocator, untrusted_bytes, .{
     .max_output_size = 50 * 1024 * 1024, // 50 MiB upper limit
 }) catch |err| switch (err) {
-    error.ExceededSizeLimit => {
+    error.ExceededOutputLimit => {
         std.debug.print("Decompression aborted: payload exceeded limit!\n", .{});
         return;
     },

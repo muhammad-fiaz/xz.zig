@@ -55,7 +55,7 @@ pub fn decodeBlock(
 
     // Check LZMA2 dictionary size
     const dict_size = try lzma2_filter.propToDictSize(last_filter.properties[0]);
-    if (dict_size > options.memlimit) return error.ExceededMemoryLimit;
+    if (dict_size > options.getEffectiveMemlimit()) return error.ExceededMemoryLimit;
 
     // Validate non-last filters
     for (header.filters[0 .. header.filters.len - 1]) |f| {

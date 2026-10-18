@@ -270,7 +270,7 @@ const c_none = try xz.compress(allocator, text, .{ .check = .none });
 ```zig
 // Pre-process x86 executable code before LZMA2 compression:
 const filtered = try xz.compress(allocator, machine_code, .{
-    .enable_bcj_x86 = true,
+    .bcj_x86 = true,
     .check = .crc64,
 });
 
@@ -302,9 +302,10 @@ const result = xz.decompress(allocator, hostile_stream, .{
 if (result) |decompressed| {
     defer allocator.free(decompressed);
 } else |err| switch (err) {
-    error.ExceededSizeLimit => std.debug.print("Payload exceeded 16 MiB limit\n", .{}),
+    error.ExceededOutputLimit => std.debug.print("Payload exceeded 16 MiB limit\n", .{}),
+    error.ExceededMemoryLimit => std.debug.print("Payload exceeded dictionary memory limit\n", .{}),
     error.ChecksumMismatch => std.debug.print("Integrity check failed (CRC32/CRC64/SHA-256)\n", .{}),
-    error.InvalidHeaderMagic => std.debug.print("Not a valid XZ container file\n", .{}),
+    error.InvalidMagic => std.debug.print("Not a valid XZ container file\n", .{}),
     error.CorruptData => std.debug.print("Corrupted block or index records\n", .{}),
     else => std.debug.print("Decompression error: {}\n", .{err}),
 }
@@ -375,7 +376,7 @@ zig fmt --check src/ examples/ build.zig build.zig.zon
 
 | Protection | Mechanism |
 |---|---|
-| **Decompression Bomb (CWE-409)** | `DecompressOptions.max_output_size` caps uncompressed output; `error.ExceededSizeLimit` on breach |
+| **Decompression Bomb (CWE-409)** | `DecompressOptions.max_output_size` caps uncompressed output; `error.ExceededOutputLimit` on breach |
 | **Dictionary Memory Bounds** | `DecompressOptions.dict_size_limit` restricts peak allocation before dictionary is created |
 | **Zero-Allocation Execution** | `compressInto` / `decompressInto` operate on caller buffers with no heap use; `error.OutputTooSmall` on overflow |
 | **Checksums** | IEEE 802.3 CRC32, ECMA-182 CRC64, and SHA-256 per-block integrity (`error.ChecksumMismatch`) |

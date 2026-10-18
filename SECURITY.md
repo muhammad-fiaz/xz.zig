@@ -30,8 +30,8 @@ Reports will be reviewed and investigated by the maintainers. Confirmed vulnerab
 XZ containers encapsulate LZMA2 compressed blocks and optional filter stages. Malicious payloads ("decompression bombs" or "tarbombs") can be crafted to expand into petabytes of uncompressed output from small inputs.
 
 When handling untrusted data:
-- **Configure `max_output_size`**: Specify `DecompressOptions.max_output_size` to enforce an upper bound on decompressed byte count across the stream. If decompression exceeds this threshold, the operation terminates immediately with `error.ExceededSizeLimit`.
-- **Configure `dict_size_limit`**: Restrict the maximum permitted dictionary size in `DecompressOptions` to limit memory consumption by the decompressor.
+- **Configure `max_output_size`**: Specify `DecompressOptions.max_output_size` to enforce an upper bound on decompressed byte count across the stream. If decompression exceeds this threshold, the operation terminates immediately with `error.ExceededOutputLimit`.
+- **Configure `dict_size_limit` / `memlimit`**: Restrict the maximum permitted dictionary size in `DecompressOptions` to prevent rogue headers from forcing excessive memory consumption (`error.ExceededMemoryLimit`).
 - **Use Caller-Provided Buffers**: For constrained or embedded environments, use `decompressInto` with fixed-size destination slices. If the output exceeds buffer capacity, the function returns `error.OutputTooSmall` without allocating heap memory.
 
 ## Format Validation vs. Security Guarantees
