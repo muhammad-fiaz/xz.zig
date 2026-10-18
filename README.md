@@ -371,23 +371,20 @@ zig fmt --check src/ examples/ build.zig build.zig.zon
 
 ## Security & Resource Management
 
-- **Decompression Bomb Protection (CWE-409)**: XZ containers encapsulate highly compressible LZMA2 blocks that can expand into gigabytes or petabytes from small payloads. `xz.zig` enforces defense-in-depth:
-  - **Uncompressed Output Caps**: Set `DecompressOptions.max_output_size` to enforce an absolute uncompressed byte ceiling across multi-block streams; exceeding this limit triggers `error.ExceededSizeLimit`.
-  - **Dictionary Memory Bounds**: Set `DecompressOptions.dict_size_limit` to restrict peak memory consumption before dictionary allocation occurs.
-  - **Zero-Allocation Stack Buffer Execution**: `compressInto` and `decompressInto` operate entirely on caller-provided buffers with zero heap allocations, returning `error.OutputTooSmall` on boundary overflow.
-- **Configurable Memory Usage & Filter Chains**:
-  - **Presets (0–9)**: Standard dictionary scaling from 4 KiB (preset 0) up to 64 MiB (preset 9).
-  - **Composable Filters**: Native Delta byte-distance filters (`0x03`) and x86 BCJ branch address translation (`0x04`) optimize executable compression without heap bloat.
-  - **Bounded Streaming Pipelines**: Reader/writer streaming pipelines (`compressStream` / `decompressStream`) process multi-gigabyte streams within fixed, predictable buffer windows.
-- **End-to-End Container & Block Integrity**:
-  - **Cryptographic & Hardware Checksums**: Standard IEEE 802.3 CRC32, ECMA-182 reversed polynomial CRC64, and cryptographic SHA-256 detect transmission errors and intentional tampering (`error.ChecksumMismatch`).
-  - **Framing & Magic Validation**: Header magic (`FD 37 7A 58 5A 00`) and footer magic (`59 5A`) validation (`error.InvalidMagic`).
-  - **Block Header CRC32**: Every block header carries its own CRC32, guarding against corrupted flags, filter counts, or size declarations (`error.InvalidBlockHeader`).
-  - **Index & Backward Size Consistency**: The stream index records every block's unpadded and uncompressed size; footer backward size is validated against index byte count (`error.IndexMismatch`, `error.InvalidFooter`).
-  - **Variable-Length Integer (VLI) Hardening**: Strictly validates unsigned VLI bounds ($0 \le \text{value} \le 2^{63}-1$), rejecting overlong or truncated integers (`error.CorruptData`).
-- See [SECURITY.md](SECURITY.md) for vulnerability reporting guidelines.
+`xz.zig` is designed to process untrusted inputs safely. Key protections include:
+
+| Protection | Mechanism |
+|---|---|
+| **Decompression Bomb (CWE-409)** | `DecompressOptions.max_output_size` caps uncompressed output; `error.ExceededSizeLimit` on breach |
+| **Dictionary Memory Bounds** | `DecompressOptions.dict_size_limit` restricts peak allocation before dictionary is created |
+| **Zero-Allocation Execution** | `compressInto` / `decompressInto` operate on caller buffers with no heap use; `error.OutputTooSmall` on overflow |
+| **Checksums** | IEEE 802.3 CRC32, ECMA-182 CRC64, and SHA-256 per-block integrity (`error.ChecksumMismatch`) |
+| **Frame Validation** | Header/footer magic, block header CRC32, VLI bounds, index consistency, and backward size cross-checking |
+
+See [SECURITY.md](SECURITY.md) for vulnerability reporting guidelines and full resource-exhaustion guidance.
 
 ---
+
 
 ## Format Distinctions
 
