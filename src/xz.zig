@@ -465,3 +465,25 @@ test "adversarial: fuzzing and malformed stream resilience" {
     std.mem.writeInt(u32, flags_mismatch[written - 12 .. written - 8][0..4], footer_crc, .little);
     try std.testing.expectError(error.StreamFlagsMismatch, decompress(std.testing.allocator, flags_mismatch[0..written], .{}));
 }
+
+test "xz: max_output_size limits decompression bomb" {
+    const text = "Repetitive data pattern for testing decompression bomb caps in XZ containers. " ++
+        "Repetitive data pattern for testing decompression bomb caps in XZ containers. " ++
+        "Repetitive data pattern for testing decompression bomb caps in XZ containers.";
+    const comp = try compress(std.testing.allocator, text, .{});
+    defer std.testing.allocator.free(comp);
+
+    // Limit output to less than actual size
+    const limit = text.len / 2;
+    try std.testing.expectError(error.ExceededOutputLimit, decompress(std.testing.allocator, comp, .{ .max_output_size = limit }));
+}
+
+test "xz: dict_size_limit limits memory allocation" {
+    const text = "Testing dictionary size limit constraint on XZ decompression.";
+    // Compress with preset 6 (8 MiB dictionary)
+    const comp = try compress(std.testing.allocator, text, .{ .level = 6 });
+    defer std.testing.allocator.free(comp);
+
+    // Set limit to 64 KiB, which is below the 8 MiB dictionary declared in block header
+    try std.testing.expectError(error.ExceededMemoryLimit, decompress(std.testing.allocator, comp, .{ .dict_size_limit = 64 * 1024 }));
+}

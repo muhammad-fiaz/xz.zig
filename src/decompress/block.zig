@@ -115,7 +115,10 @@ pub fn decodeBlock(
         .dict_size_limit = dict_size,
         .max_output_size = options.max_output_size orelse std.math.maxInt(usize),
     };
-    const decompressed = try lzma2_filter.decompress(allocator, compressed_slice, lzma2_decomp_opts);
+    const decompressed = lzma2_filter.decompress(allocator, compressed_slice, lzma2_decomp_opts) catch |err| switch (err) {
+        error.ExceededSizeLimit => return error.ExceededOutputLimit,
+        else => return err,
+    };
     errdefer allocator.free(decompressed);
 
     // If uncompressed size is declared in header, verify match

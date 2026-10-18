@@ -200,7 +200,10 @@ pub fn decompressStream(reader: anytype, writer: anytype, options: DecompressOpt
                 .dict_size_limit = dict_size,
                 .max_output_size = remaining_allowed,
             };
-            const decompressed = try lzma2_filter.decompress(allocator, comp_buf.items, lzma2_decomp_opts);
+            const decompressed = lzma2_filter.decompress(allocator, comp_buf.items, lzma2_decomp_opts) catch |err| switch (err) {
+                error.ExceededSizeLimit => return error.ExceededOutputLimit,
+                else => return err,
+            };
             defer allocator.free(decompressed);
 
             if (header.uncompressed_size) |us| {
