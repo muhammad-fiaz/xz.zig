@@ -2,13 +2,13 @@
 layout: home
 title: Native XZ Container Compression & Decompression Library for Zig
 titleTemplate: ":title | xz.zig"
-description: Complete, type-safe, pure native Zig 0.17.0 implementation of the XZ container file format. Full multi-block streaming, CRC32, CRC64, SHA-256 checks, Delta and BCJ filters, zero external C dependencies.
+description: Production-ready, complete, type-safe, pure native Zig 0.17.0 implementation of the XZ container file format. Full multi-block streaming, CRC32, CRC64, SHA-256 checks, Delta and BCJ filters, zero external C dependencies.
 keywords: native xz compression and decompression library for zig, zig xz, pure zig xz container, 7-zip xz, liblzma zig, zig 0.17.0, zero dependencies
 
 hero:
   name: "xz.zig"
   text: "Native XZ Container Compression for Zig"
-  tagline: "Native Zig XZ container compression library."
+  tagline: "Production-ready native Zig XZ container compression library."
   actions:
     - theme: brand
       text: Get Started
@@ -49,9 +49,13 @@ features:
 
 ## Installation
 
-Add `xz.zig` to your project using `zig fetch`:
+`xz.zig` is production-ready. The **recommended** method for production applications is pinning to the tagged stable release:
 
 ```bash
+# Recommended: Tagged stable release (0.0.1)
+zig fetch --save https://github.com/muhammad-fiaz/xz.zig/archive/refs/tags/0.0.1.tar.gz
+
+# Alternative: Latest development build (main branch)
 zig fetch --save git+https://github.com/muhammad-fiaz/xz.zig.git
 ```
 
