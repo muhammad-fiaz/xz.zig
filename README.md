@@ -313,24 +313,6 @@ if (result) |decompressed| {
 
 ---
 
-## Cross-Tool Interoperability
-
-Verification was executed against the official **XZ Utils** (`xz.exe` v5.8.1) and **7-Zip** (`7z.exe` v26.03) across 8 diverse fixtures and multiple check algorithms. Every fixture was tested bidirectionally across 6 validation paths:
-
-| Fixture | Input Size | xz.zig $\to$ xz.exe (CRC64) | xz.zig $\to$ xz.exe (CRC32) | xz.zig $\to$ xz.exe (SHA-256) | xz.zig $\to$ 7-Zip | xz.exe $\to$ xz.zig | 7-Zip $\to$ xz.zig |
-|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Empty** | 0 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **One Byte** | 1 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **Short String** | 32 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **Repeated 'A'** | 4,096 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **Natural Text** | 400 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **Structured JSON** | 420 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **Random Binary** | 16,384 B | PASS | PASS | PASS | PASS | PASS | PASS |
-| **Boundary Data** | 65,537 B | PASS | PASS | PASS | PASS | PASS | PASS |
-
-> **Result**: **48 / 48 tests passed (100% bit-perfect match)** with zero warnings or errors.
-
----
 
 ## Runnable Examples
 

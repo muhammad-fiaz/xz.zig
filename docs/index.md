@@ -42,9 +42,6 @@ features:
   - icon: 🔄
     title: Zero-Heap Caller Buffers
     details: Stack and caller-provided buffer APIs (`compressInto`, `decompressInto`) operate with zero dynamic heap allocation overhead.
-  - icon: 🧪
-    title: 100% Cross-Tool Interoperability
-    details: Rigorously cross-verified with official XZ Utils (`xz.exe` v5.8.1) and 7-Zip (`7z.exe` v26.03) with 100% bit-perfect decoding parity.
 ---
 
 ## Installation
