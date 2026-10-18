@@ -1,7 +1,7 @@
-//! xz.zig — Production-Quality Native Zig XZ Container Library
+//! xz.zig — Modern Native Zig XZ Container Compression Library
 //!
-//! Full standalone implementation of the .xz file format (Version 1.2.1)
-//! using lzma2.zig as the core LZMA2 compression filter.
+//! Implementation of the XZ Container File Format (Version 1.0.4)
+//! using lzma2.zig as its underlying LZMA2 codec dependency.
 //!
 //! Author: muhammad-fiaz
 //! License: MIT

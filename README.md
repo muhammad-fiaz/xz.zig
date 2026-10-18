@@ -25,7 +25,7 @@
 
 </div>
 
-`xz.zig` is a modern, high-performance implementation of the **XZ Container File Format** written entirely in native Zig targeting **Zig 0.17.0 or later**. It uses the public API of [`lzma2.zig`](https://github.com/muhammad-fiaz/lzma2.zig) as its codec dependency for raw LZMA2 chunk coding, providing zero-overhead integration without duplicating compression logic.
+`xz.zig` is a modern, high-performance XZ container compression library written in native Zig for **Zig 0.17.0 or later**. It implements the official XZ file format specification (Version 1.0.4) using [`lzma2.zig`](https://github.com/muhammad-fiaz/lzma2.zig) as its underlying LZMA2 codec dependency.
 
 > [!TIP]
 > If you build with xz.zig, make sure to give it a star.
@@ -205,19 +205,13 @@ exe.root_module.addImport("xz", xz_dep.module("xz"));
 
 ---
 
-## Dependency Architecture
+## Dependencies
 
-`xz.zig` consumes `lzma2.zig` purely through its public package interface:
+`xz.zig` uses [`lzma2.zig`](https://github.com/muhammad-fiaz/lzma2.zig) as a package dependency for raw LZMA2 chunk coding:
 
 ```text
-Application
-    │
-    └── xz.zig (XZ container framing, filters, checksums, index)
-            │
-            └── imports lzma2.zig (raw LZMA2 chunk codec)
+Application ──> xz.zig (container format, framing, filters, checksums) ──> lzma2.zig (LZMA2 codec)
 ```
-
-No circular dependencies exist. `lzma2.zig` remains completely independent of `xz.zig`.
 
 ---
 

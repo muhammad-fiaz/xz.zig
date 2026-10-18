@@ -6,7 +6,7 @@
     .dependencies = .{
         .lzma2 = .{
             .url = "git+https://github.com/muhammad-fiaz/lzma2.zig.git",
-            .hash = "lzma2-0.0.1-YyNkYTHGAwC_BdevQQQiaWp8E_07tnA8or3xqZCvWmYd",
+            .hash = "lzma2-0.0.1-YyNkYQ7GAwC2xO-tVqSOGwN1MJZ5f4qQ4FCsjJ7gXhBz",
         },
     },
     .paths = .{
