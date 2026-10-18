@@ -1,0 +1,16 @@
+{
+  "name": "xz-zig-docs",
+  "version": "0.0.1",
+  "description": "Documentation for xz.zig - Native Zig XZ container compression library",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

@@ -1,0 +1,20 @@
+.{
+    .name = .xz,
+    .version = "0.0.1",
+    .fingerprint = 0x16ef79238b089623,
+    .minimum_zig_version = "0.17.0",
+    .dependencies = .{
+        .lzma2 = .{
+            .url = "git+https://github.com/muhammad-fiaz/lzma2.zig.git",
+            .hash = "lzma2-0.0.1-YyNkYTHGAwC_BdevQQQiaWp8E_07tnA8or3xqZCvWmYd",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "examples",
+        "LICENSE",
+        "README.md",
+    },
+}
