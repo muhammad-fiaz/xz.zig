@@ -5,7 +5,7 @@
     .minimum_zig_version = "0.17.0",
     .dependencies = .{
         .lzma2 = .{
-            .url = "git+https://github.com/muhammad-fiaz/lzma2.zig.git",
+            .url = "git+https://github.com/muhammad-fiaz/lzma2.zig.git#cc3bad13ba4b6fa71a83a25552ada64d6991cb53",
             .hash = "lzma2-0.0.1-YyNkYQ7GAwC2xO-tVqSOGwN1MJZ5f4qQ4FCsjJ7gXhBz",
         },
     },
